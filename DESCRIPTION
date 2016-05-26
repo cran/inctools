@@ -2,8 +2,8 @@ Encoding: UTF-8
 Package: inctools
 Type: Package
 Title: Incidence Estimation Tools
-Version: 1.0.3
-Date: 2016-05-18
+Version: 1.0.5
+Date: 2016-05-27
 Authors@R: c(
   person("Alex","Welte", email="alexwelte@sun.ac.za", role="aut"),
   person("Eduard","Grebe",email="eduardgrebe@sun.ac.za",role=c("cre","aut")),
@@ -11,6 +11,7 @@ Authors@R: c(
   person("Petra","Bäumler",email="petra.baeumler@med.uni-muenich.de",role="aut"),
   person("Reshma","Kassanjee", role="ctb"),
   person("Hilmarie","Brand", role="ctb"),
+  person("Cari","Van Schalkwyk", role="ctb"),
   person("Yuruo","Li",email="yul123@pitt.edu", role="ctb"),
   person("Simon","Daniel",email="skjdaniel@gmail.com", role="ctb"),
   person("Stefano","Ongarello", email="stefano.ongarello@finddx.org", role="ctb"),
@@ -27,17 +28,18 @@ Suggests: doMC, knitr, survey
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2016-05-18 11:05:01 UTC; eduardgrebe
+Packaged: 2016-05-26 09:52:06 UTC; eduardgrebe
 Author: Alex Welte [aut],
   Eduard Grebe [cre, aut],
   Avery McIntosh [aut],
   Petra Bäumler [aut],
   Reshma Kassanjee [ctb],
   Hilmarie Brand [ctb],
+  Cari Van Schalkwyk [ctb],
   Yuruo Li [ctb],
   Simon Daniel [ctb],
   Stefano Ongarello [ctb],
   Yusuke Asai [ctb]
 Maintainer: Eduard Grebe <eduardgrebe@sun.ac.za>
 Repository: CRAN
-Date/Publication: 2016-05-18 18:22:44
+Date/Publication: 2016-05-26 17:44:35
