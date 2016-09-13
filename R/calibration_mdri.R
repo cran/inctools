@@ -31,7 +31,7 @@
 # ADD OPTION TO GET FULL LIST OF MDRIs from the bootstrapping procedure or the
 # shape of the distribution or something
 #' @param plot Specifies whether a plot of the probability of testing recent over time should be produced
-#' @param parallel Set to TRUE in order to perform bootstrapping in parallel on a multicore or multiprocessor syste. Not available on Windows.
+#' @param parallel Set to TRUE in order to perform bootstrapping in parallel on a multicore or multiprocessor system.
 #' @param cores Set number of cores for parallel processing when parallel=TRUE. This defaults to four.
 #' @return MDRI Dataframe containing MDRI point estimates, CI lower and upper bounds and standard deviation of point estimates produced during bootstrapping. One row per functional form.
 #' @return Plots A plot of Probability of testing recent over time for each functional form.
@@ -144,26 +144,22 @@ mdrical <- function(data = NULL, subid_var = NULL, time_var = NULL, functional_f
     stop("Subject identifier and time variables must be specified.")
   }
 
-  if (parallel == TRUE && Sys.info()["sysname"] == "Windows") {
-    stop("Sorry, parallelisation of bootstrapping is not supported on Windows")
-  }
-
-  if (parallel == TRUE) {
-    check_package("doMC")
-  }
-
   # check that subject id, time and recency variables exist
   variables <- colnames(data)
   if (sum(variables == subid_var) != 1) {
-    print(paste("There is no column", subid_var, "in the data frame."))
+    stop(paste("There is no column", subid_var, "in the data frame."))
   }
   if (sum(variables == time_var) != 1) {
-    print(paste("There is no column", time_var, "in the data frame."))
+    stop(paste("There is no column", time_var, "in the data frame."))
   }
   for (i in 1:length(recency_vars)) {
     if (sum(variables == recency_vars[i]) != 1) {
-      print(paste("There is no column", recency_vars[i], "in the data frame."))
+      stop(paste("There is no column", recency_vars[i], "in the data frame."))
     }
+  }
+
+  if (n_bootstraps < 0 | !is.wholenumber(n_bootstraps)) {
+    stop("n_bootstraps must be a positive integer")
   }
 
     ## Assign numeric subject ids, recency variables and recency status
@@ -178,7 +174,7 @@ mdrical <- function(data = NULL, subid_var = NULL, time_var = NULL, functional_f
 
     n_subjects <- max(data$sid)
 
-    mdri_output <- data.frame(matrix(ncol = 4, nrow = 0))
+    mdri_output <- data.frame(matrix(ncol = 7, nrow = 0))
     model_output <- list()
     if (plot == TRUE) {
         plot_output <- list()
@@ -186,8 +182,9 @@ mdrical <- function(data = NULL, subid_var = NULL, time_var = NULL, functional_f
 
     for (i in 1:length(functional_forms)) {
         functional_form <- functional_forms[i]
+        print(paste("Computing MDRI using functional form",functional_form))
 
-        if (parallel == TRUE && n_bootstraps != 0) {
+        if (parallel == TRUE && n_bootstraps > 0) {
             boot_data <- data
             model <- fit_binomial_model(data = boot_data, functional_form = functional_form,
                 tolerance = tolerance_glm2, maxit = maxit_glm2)
@@ -200,13 +197,23 @@ mdrical <- function(data = NULL, subid_var = NULL, time_var = NULL, functional_f
             if (plot == TRUE) {
                 plot_parameters <- parameters
             }
-
-            doMC::registerDoMC(cores)
+            cluster <- parallel::makeCluster(cores, outfile="")
+            doParallel::registerDoParallel(cluster)
+            if (foreach::getDoParWorkers() != cores) {
+              stop("Failed to initialise parallel worker threads.")
+              }
             chosen_subjects <- vector(mode = "list", length = n_bootstraps)
             for (j in 1:n_bootstraps) {
                 chosen_subjects[[j]] <- sample(1:n_subjects, n_subjects, replace = T)
             }
-            mdris <- foreach::foreach(j = 1:n_bootstraps, .combine = rbind) %dopar%
+              pb <- utils::txtProgressBar(min = 1, max = n_bootstraps, style = 3)
+              #progress <- function(n) utils::setTxtProgressBar(pb, n)
+              #opts <- list(progress = progress)
+            mdris <- foreach::foreach(j = 1:n_bootstraps, .combine = rbind,
+                                      #.options.snow = opts,
+                                      .inorder = FALSE #,
+                                      #.packages = "inctools"
+                                      ) %dopar%
                 {
                   boot_data <- data[FALSE, ]
                   for (k in 1:n_subjects) {
@@ -219,9 +226,13 @@ mdrical <- function(data = NULL, subid_var = NULL, time_var = NULL, functional_f
                   mdri_iterate <- integrate_for_mdri(parameters = parameters, recency_cutoff_time = recency_cutoff_time,
                     functional_form = functional_form, tolerance = tolerance_integral,
                     maxit = maxit_integral)
+                  if (n_bootstraps > 0) {utils::setTxtProgressBar(pb, j)}
                   return(mdri_iterate)
                 }
+            close(pb)
+            parallel::stopCluster(cluster)
         } else {
+            if (n_bootstraps > 0) {pb <- utils::txtProgressBar(min = 1, max = n_bootstraps, style = 3)}
             for (j in 0:n_bootstraps) {
                 chosen_subjects <- sample(1:n_subjects, n_subjects, replace = T)
                 if (j != 0) {
@@ -249,20 +260,22 @@ mdrical <- function(data = NULL, subid_var = NULL, time_var = NULL, functional_f
                   }
                 } else {
                   mdris <- append(mdris, mdri_iterate)
+                  utils::setTxtProgressBar(pb, j)
                 }
             }  # bootstraps
+          if (n_bootstraps > 0) {close(pb)}
         }
 
         if (n_bootstraps == 0) {
             mdri_sd <- NA
             mdri_ci <- c(NA, NA)
-            mdri_ff <- data.frame(round(mdri, 4), NA, NA, NA)
+            mdri_ff <- data.frame(round(mdri, 4), NA, NA, NA, sum(data$recency_status), length(unique(data$sid)), nrow(data))
             mdri_output <- rbind(mdri_output, mdri_ff)
         } else {
             mdri_sd <- stats::sd(mdris)
             mdri_ci <- stats::quantile(mdris, probs = c(alpha/2, 1 - alpha/2))
             mdri_ff <- data.frame(round(mdri, 4), round(mdri_ci[1], 4), round(mdri_ci[2],
-                4), round(mdri_sd, 4))
+                4), round(mdri_sd, 4), sum(data$recency_status), length(unique(data$sid)), nrow(data))
             mdri_output <- rbind(mdri_output, mdri_ff)
         }
 
@@ -276,7 +289,7 @@ mdrical <- function(data = NULL, subid_var = NULL, time_var = NULL, functional_f
 
     }  # functional forms
     rownames(mdri_output) <- functional_forms
-    colnames(mdri_output) <- c("PE", "CI_LB", "CI_UB", "SD")
+    colnames(mdri_output) <- c("PE", "CI_LB", "CI_UB", "SE", "n_recent", "n_subjects", "n_observations")
 
     if (plot == TRUE) {
         output <- list(MDRI = mdri_output, Plots = plot_output, Models = model_output)
@@ -286,34 +299,18 @@ mdrical <- function(data = NULL, subid_var = NULL, time_var = NULL, functional_f
     return(output)
 }
 
-# This is complicated - needs specification of the family of individual curves,
-# function with parameters etc...  Estimate MDRI using a mixed effects binomial
-# model...  mdri_ml_mixedbinomial <- function() { }
-
-
-
-check_package <- function(package) {
-    if (!require(package, character.only = TRUE)) {
-        print(paste("Attempting to install dependency", package, sep = " "))
-        utils::install.packages(package, dependencies = TRUE)
-        if (!require(package, character.only = TRUE)) {
-            stop(paste("Package", package, "could not be automatically installed.",
-                sep = " "))
-        }
-    }
-}
-
 process_data <- function(data = data, subid_var = subid_var, time_var = time_var,
     recency_vars = recency_vars, inclusion_time_threshold = inclusion_time_threshold) {
     names(data)[names(data) == subid_var] <- "sid"
     names(data)[names(data) == time_var] <- "time_since_eddi"
+    data$time_since_eddi <- as.numeric(as.character(data$time_since_eddi))
     temp_data <- data[, c("sid", "time_since_eddi")]
     for (i in 1:length(recency_vars)) {
         temp_data <- cbind(temp_data, data[, recency_vars[i]])
         colnames(temp_data)[2 + i] <- paste0("recency", i)
     }
-    temp_data <- subset(temp_data, 0 < as.numeric(temp_data$time_since_eddi) & as.numeric(temp_data$time_since_eddi) <=
-        inclusion_time_threshold)
+    temp_data <- subset(temp_data, 0 < temp_data$time_since_eddi &
+                          temp_data$time_since_eddi <= inclusion_time_threshold)
     temp_data <- stats::na.omit(temp_data)
     if (nrow(temp_data) < 1) {
         stop("Error: dataframe is empty after omitting rows with empty cells and applying time exclusion criterion")
@@ -352,6 +349,7 @@ assign_recency_status <- function(data = data, recency_params = recency_params, 
     return(data)
 }
 
+#' @export
 fit_binomial_model <- function(data = data, functional_form = functional_form, tolerance, maxit) {
     data$time_since_eddi <- ifelse(data$time_since_eddi == 0, 1e-10, data$time_since_eddi)
 
@@ -396,13 +394,13 @@ functional_form_logitcubic <- function(t, parameters) {
 }
 
 # A function that integrates from 0 to T in order to obtain MDRI estimate
+#' @export
 integrate_for_mdri <- function(parameters = parameters, recency_cutoff_time = recency_cutoff_time,
     functional_form = functional_form, tolerance, maxit) {
 
     if (is.nan(functional_form)) {
         stop("functional_form name required in order to evaluate functional form")
     }
-
     switch(as.character(functional_form), cloglog_linear = {
         answer <- try(cubature::adaptIntegrate(f = functional_form_clogloglinear,
             lowerLimit = 0, upperLimit = recency_cutoff_time, parameters = parameters,
@@ -439,8 +437,6 @@ plot_probability <- function(functional_form = functional_form, parameters = par
         colnames(plotdata) <- c("time_since_eddi", "probability")
     })
 
-    #plotout <- ggplot2::ggplot() + ggplot2::geom_line(data = plotdata, ggplot2::aes(x = time_since_eddi,
-    #                                                                                y = probability))
     plotout <- ggplot2::ggplot() + ggplot2::geom_line(data = plotdata, ggplot2::aes(x = plotdata$time_since_eddi,
                                                                                     y = plotdata$probability))
     plotout <- plotout + ggplot2::labs(x = "Time (since detectable infection)", y = "Probability of testing recent")
@@ -466,4 +462,8 @@ plot_probability <- function(functional_form = functional_form, parameters = par
     plotout <- plotout + ggplot2::ggtitle(plot_title)
 
     return(plotout)
+}
+
+is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
+  abs(x - round(x)) < tol
 }
