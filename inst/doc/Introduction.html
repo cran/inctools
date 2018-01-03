@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2016-05-12" />
+<meta name="date" content="2017-04-29" />
 
 <title>Overview of Incidence Estimation Package inctools</title>
 
@@ -20,7 +20,189 @@
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 </head>
 
@@ -30,12 +212,11 @@
 
 
 <h1 class="title toc-ignore">Overview of Incidence Estimation Package <em>inctools</em></h1>
-<h4 class="date"><em>2016-05-12</em></h4>
+<h4 class="date"><em>29 April 2017</em></h4>
 
 
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
+<p>##Introduction</p>
 <p>The <em>inctools</em> package is broadly conceived to provide state of the art functionality to support numerous aspects of population level incidence surveillance. Estimating incidence in formally constituted study cohorts is conceptually straightforward and not the focus of this package.</p>
 <p>Inspiration for this work derives from the challenges associated with estimating population level HIV incidence, and so, for the time being, this will explicitly be the primary focus and the sole source of examples. In principle, the estimation of any non-remissible condition poses similar obstacles, so it is plausible that these ideas may find fruitful application to conditions other than HIV.</p>
 <p>In this initial version of <em>inctools</em> , the central theme is the estimation of incidence through cross-sectional biomarker measurement – in particular, biomarkers supporting classification of cases (infections) as recently or non-recently acquired. In future, it is expected that there will be functionality to explicitly address the interpretation of age and time structured prevalence and mortality data, whether or not ‘recency of infection’ has been ascertained.</p>
@@ -47,16 +228,11 @@
 <li><strong>Errors</strong> indicate a fundamental breakdown in consistency, such as a greater number of recent HIV infections than HIV infections. In the case of an error, expected output is suppressed.</li>
 </ul>
 <p>The lack of any formal warranty notwithstanding, users are invited to contact the maintainers for assistance and are indeed requested to provide any notification of possible errors, feedback about functionality or notification and explanation of GIT repository level ‘pull-requests’.</p>
-</div>
-<div id="historical-context" class="section level2">
-<h2>Historical context</h2>
+<p>##Historical context</p>
 <p>Amongst other features, Version 1 of <em>inctools</em> makes available the functionality of a spreadsheet based tool set previous circulated in three major versions under the name ABIE (<em>Assay Based Incidence Estimation</em>). Version 3 of ABIE is still available and may for a little while retain some advantages over an R package, for some users, such as the automatic generation of plots as part of some calculations, the production of which, in the initial R package, would require some R programmer intervention. However, the ABIE spreadsheet tools family is now technically obsolete and superseded, but will be supported for a while on [www.incidence-estimation.org] (<a href="http://www.incidence-estimation.org/page/tools-for-incidence-from-biomarkers-for-recent-infection" class="uri">http://www.incidence-estimation.org/page/tools-for-incidence-from-biomarkers-for-recent-infection</a>). The ABIE feature set forms the basis of two components of <em>inctools</em>: [^1]: Analysis in support of survey design [^2]: Analysis of survey data Additionally, <em>inctools</em> incorporates the heart of a little known, now deprecated, R package called ritcalib, which provides [^3]: Estimation of key performance characteristics of tests for ‘recent infection’</p>
-</div>
-<div id="overview-of-functionality-and-use" class="section level2">
-<h2>Overview of Functionality and Use</h2>
+<p>##Overview of Functionality and Use</p>
 <p>Fleshing out the three primary components just noted above:</p>
-<div id="analysis-in-support-of-survey-design" class="section level3">
-<h3>Analysis in support of survey design</h3>
+<p>###Analysis in support of survey design</p>
 <p>Two primary exposed functions (<code>incprecision</code> and <code>incpower</code>) provide permutations on the relationship between</p>
 <ul>
 <li><p>epidemiological context,</p></li>
@@ -70,9 +246,7 @@
 <li><p>the calculation of a sample size from the other contextual factors, including desired precision or power</p></li>
 </ul>
 <p>Users of <code>incprecision</code> and <code>incpower</code> will need to make significant efforts to assess the context of intended use, but require no detailed knowledge of the statistical theory underpinning the details of the calculations. The two primary functions each offer their various respective permutations on usage by having the user provide the value “out” for the parameter which is requested as output, while all the other logically necessary parameters will need to be supplied, in order to avoid an error.</p>
-</div>
-<div id="analysis-of-survey-data" class="section level3">
-<h3>Analysis of survey data</h3>
+<p>###Analysis of survey data</p>
 <p>Once a population level survey has been carried out, the fully specified data set will essentially consist of subject level records indicating demographic factors, cluster/stratum membership, and various clinical indicators such as final HIV status and recency status. In order to accommodate arbitrarily sophisticated analysis of such complex data sets, the conception of <em>inctools</em> is that a substantial layer of ‘pre-processing’ is expected to routinely precede any invocation of <em>inctools</em> functionality. Use of the primary, preferred entry point into incidence estimate (function incprops) requires survey data to be reduced to:</p>
 <ul>
 <li>an estimate of HIV prevalence</li>
@@ -85,65 +259,62 @@
 <li>Function inccounts incorporates a detour through function prevcounts, followed by a call to incprops, thereby provide a high level interface to incidence estimation based directly on total sample counts, contextual factors, and recency test properties.</li>
 <li>The package <em>inctools</em> lists package survey in its dependencies, thereby assuring access to at least one robust flexible tool set to facilitate the estimation of the relevant sample proportions from structured survey data.</li>
 </ul>
-</div>
-<div id="estimation-of-key-performance-characteristics-of-tests-for-recent-infection" class="section level3">
+<section id="estimation-of-key-performance-characteristics-of-tests-for-recent-infection" class="level3">
 <h3>Estimation of key performance characteristics of <em>Tests for Recent Infection</em></h3>
 <p>It is usually the responsibility of the developers of recent infection tests to decide on laboratory procedures and to estimate the MDRIs and (population group level) FRRs of emerging assays. Most users of such tests who are conducting field work will access these estimates from the literature. However, the process of test development is ongoing, developers at key agencies (such as NIH and CDC) are also involved in survey design and execution, and the methods applicable to survey execution are very tightly aligned to the analysis of test properties. Thus, both developers and users of recent infection tests (as well as of the analytical methodology supporting their use) are essentially part of a single broad community engaged in large scale surveillance. Therefore, it makes sense to co-locate the developers’ tools with the surveillance tools.</p>
 <p>The core functionality in this section of the package is provided by function <code>mdrical</code>, which produces estimates of mean duration of recent infection and function <code>frrcal</code> which produces estimates of false recent rate, both from data typically only available to test developers i.e. patient level test results from a putative recent infection test, applied at various times relative to relatively precisely estimated infection/seroconversion times.</p>
-</div>
-</div>
-<div id="glossary" class="section level2">
-<h2>Glossary</h2>
+<p>##Glossary</p>
 <p>The package inctools, and natural discussion of its application, implies use of some common or specialised (to this sub-field) terms which it may be prudent to define here. These are not detailed technical definitions, but are intended to serve as reminders, or, should they be unclear, would serve to highlight the need to investigate primary sources.</p>
-<div id="hiv-infected-individual" class="section level3">
+</section>
+<section id="hiv-infected-individual" class="level3">
 <h3><em>HIV infected individual</em></h3>
 <p>The protocol-specific case definition for HIV infected individual needs to be very clearly spelled out. This is because there is no universal standard, although there have for some years been variants on protocols involving sensitive screening tests and highly specific “confirmatory” or “supplemental” tests. What could be called shifting sands in clinical practice is even more fluid in research settings, which may use viral nucleic acid and antigen detection, and not even rely on classical serological ‘confirmation’ of HIV infection.</p>
-</div>
-<div id="mean-duration-of-recent-infection-mdri" class="section level3">
+</section>
+<section id="mean-duration-of-recent-infection-mdri" class="level3">
 <h3><em>Mean duration of recent infection (MDRI)</em></h3>
 <p>The average time for which subjects satisfy a particular “recent infection” case definition, within a specified recency cut-off time T after (detectable) infection (which is context/protocol specific).</p>
-</div>
-<div id="false-recent-rate-frr" class="section level3">
+</section>
+<section id="false-recent-rate-frr" class="level3">
 <h3><em>False-recent rate (FRR)</em></h3>
 <p>The (context specific) fraction of tests, performed on individuals (detectably) infected for more than the time cut-off T, which produce a (false) recent result. This term has seen many variants. FRR is inspired by the long used term “error rate” to refer to the fraction of tests which fail in some sense. Note that there is fundamentally no such thing as a false non-recent result – the phenomenon that some individuals transition to the non-recent case definition at relatively early times post-infection, compared to the average time, is a natural and normal example of inter-subject variability in response, and is accounted for in the definition of MDRI.</p>
-</div>
-<div id="incidence-as-a-or-an-instantaneous-rate" class="section level3">
+</section>
+<section id="incidence-as-a-or-an-instantaneous-rate" class="level3">
 <h3><em>Incidence as a (or, an “instantaneous”) rate</em></h3>
 <p>This is the most fundamental metric for expressing the rate at which HIV infections occur in the susceptible (aka “at risk”) population, and is naturally expressed as a number of (infection) events per person time at risk in the referenced susceptible population. In the case of some other epidemiological contexts (such as influenza) it is not uncommon to refer to person time in the entire population, rather than the susceptible sub-population, although this does occasionally cause confusion. While, in principle, any unit of time may be used (days, weeks, months) the usual unit in HIV discourse is the year. It is important to note that the value of an incidence rate can in principle take any value, as it changes with choice of units in which time is measured. For contrast, see the next item immediately below.</p>
-</div>
-<div id="annualised-risk-of-infection" class="section level3">
+</section>
+<section id="annualised-risk-of-infection" class="level3">
 <h3><em>Annual(ised) risk of infection</em></h3>
 <p>It is also common to report the “cumulative” probability of infection over a specific period of time, such as one year. It is a subtle point, not worth expositing here in detail, that the instantaneous incidence, with time measured in years, is not, in principle, the same value as the annual risk of infection. Suffice to repeat what was noted in the preceding glossary item, namely that incidence as a “rate” can in principle attain any value, depending on choice of units of time measurement, and then to add that, by contrast, the probability of infection cumulated over a particular time period is always a number between zero and one.</p>
-</div>
-<div id="recency-time-cut-off-t-big-t" class="section level3">
+</section>
+<section id="recency-time-cut-off-t-big-t" class="level3">
 <h3><em>Recency time cut-off T (“Big T”)</em></h3>
 <p>On account of the fact that it is possible for a recency test to classify some individuals as recently infected at long times post infection, the use of a time cut-off T has been introduced to assist in the housekeeping. The details of how this works are well beyond the scope of this user guide, but if using a recent infection test based on a reasonable body of literature, there is little risk to adopting previously proposed cut off time.</p>
-</div>
-<div id="relative-standard-error-rse" class="section level3">
+</section>
+<section id="relative-standard-error-rse" class="level3">
 <h3><em>Relative standard error (RSE)</em></h3>
 <p>This widely used term refers to the ratio of a standard error of an estimate to the point estimate.</p>
-</div>
-<div id="null-hypothesis" class="section level3">
+</section>
+<section id="null-hypothesis" class="level3">
 <h3><em>Null hypothesis</em></h3>
 <p>A usually artificial assumption (not necessarily strongly believed, and perhaps strongly suspected to be false) which data either falsifies or fails to falsify.</p>
-</div>
-<div id="p-value" class="section level3">
+</section>
+<section id="p-value" class="level3">
 <h3><em>p-value</em></h3>
 <p>The probability, calculated under a particular null hypothesis, of seeing (at least) a specified deviation from a null value in a test-statistic under consideration. The classic p-value in this context answers the question: If the incidence were really the same in two populations which have been surveyed, what is the probability of seeing a point estimate of the incidence difference, the absolute value of which is at least as large as the one observed?</p>
-</div>
-<div id="significance" class="section level3">
+</section>
+<section id="significance" class="level3">
 <h3><em>Significance</em></h3>
 <p>This widely used term refers to a threshold on a p-value, below which the experimenters will reject a given null hypothesis and declare there to be a “statistically significant” “effect” or “Difference”.</p>
-</div>
-<div id="sample-size" class="section level3">
+</section>
+<section id="sample-size" class="level3">
 <h3><em>Sample size</em></h3>
 <p>The total number of individuals whose HIV status has been, or is proposed to be, assessed.</p>
-</div>
-<div id="design-effect" class="section level3">
+</section>
+<section id="design-effect" class="level3">
 <h3><em>Design effect</em></h3>
 <p>This parameter captures the impact of complexities in sampling which arise from the fact that individuals surveyed are not independently selected from the total population nominally ‘represented’. These complexities include hierarchical (clustered) sampling, stratification, weighting, etc. A Design effect captures the ratio of the actual variance of a metric (such as a prevalence of some defined condition) to the variance that would be obtained for the same metric if the analysis were conducted on the simplifying assumption that the individuals surveyed have been drawn independently from a large population.</p>
 <p>There is provision for users to provide scale factors adjusting the uncertainty in estimates of</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>the proportion of HIV infected individuals (i.e. prevalence) and</li>
 <li>the proportion of “recent” results among HIV positive individuals tested for recent infection.</li>
 </ol>
@@ -154,41 +325,34 @@
 <li>This package does not provide any functionality to derive or justify design effect estimates.</li>
 <li>It is not appropriate to scale the variances of the test property (MDRI and FRR) estimates, as these are not estimated in the incidence survey, but rather arise in the recency test development process.</li>
 </ul>
-</div>
-</div>
-<div id="citation" class="section level2">
-<h2>Citation</h2>
+<p>##Citation</p>
 <p>The use of package <em>inctools</em> implies the use of the methodology derived in the following article, which: Kassanjee R, McWalter TA, Bärnighausen T, Welte A. A new general biomarker-based incidence estimator. Epidemiology. 2012; 23(5): 721-728. Some features implemented in <em>inctools</em> are currently not published outside the package contents, and hence some additional technical details are documented in the appendix of this vignette.</p>
-</div>
-<div id="acknowledgements" class="section level2">
-<h2>Acknowledgements</h2>
-<p>Funding support for the development of these tools has historically been variously provided by the South African National Research Foundation, the Bill and Melinda Gates Foundation, the (erstwhile) Canadian International Development Agency, UNAIDS, and the World Health Organisation. Many people have contributed indirectly to this work by providing feedback on major and minor aspects and revisions.</p>
-</div>
-<div id="appendix-technical-details" class="section level2">
-<h2>Appendix: Technical details</h2>
+<p>##Acknowledgements Funding support for the development of these tools has historically been variously provided by the South African National Research Foundation, the Bill and Melinda Gates Foundation, the (erstwhile) Canadian International Development Agency, UNAIDS, and the World Health Organisation. Many people have contributed indirectly to this work by providing feedback on major and minor aspects and revisions.</p>
+<p>##Appendix: Technical details</p>
 <p>The critical core of all the functionality of package <em>inctools</em> is the incidence estimator of <em>Kassanjee et al</em> and some hitherto unpublished generalisations to accomodate structured survey design, including incomplete coverage of recency ascertainment. In essence, this generalisation involves the replacement of simple survey counts, assumed in <em>Kassanjee et al</em> to be trinomially distributed, by estimated prevalences of HIV and of recent infection amongst HIV positives (including covariance, which does not arise in the trinomial distribution case). Additionally, the variance of the difference of incidence estimators raises further issues such as</p>
 <ul>
 <li>the full specification of the Null Hypothesis of equal incidence that is required for the calculatino of p values, and</li>
 <li>the sharing of test property estimates between surveys, which induces some correlation between the incidence estimators calculated from those surveys.</li>
 </ul>
 <p>Three cases of test property sharing can feasibly arise:</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>A single estimate of MDRI, and a single estimate of FRR, is available for the recency tests used in multiple surveys. This is probably the result of the same test being used, <em>and</em> there being no reason to distinguish its FRR between the two contexts.</li>
 <li>A single estimate of MDRI is shared between two surveys, but the FRRs are independently estimated. This is probably the result of the same test being used, <em>but</em> there being data to distinguish its FRR between the two contexts.</li>
 <li>Both MDRI and FRR are independently estimated in each survey.</li>
 </ol>
 <p>Below are the variances of the incidence difference estimator for the three cases</p>
-Case 1: Surveys share a single estimate for MDRI and a single estimate for FRR
-<span class="math display">\[\begin{align}
+<p>Case 1: Surveys share a single estimate for MDRI and a single estimate for FRR <span class="math display">\[\begin{align}
 V[\Delta \mathbb{I}]_1 \approx &amp;
 \Big(\frac{(PrevR_1 - \beta)}{(1 - PrevH_1)^2} (\Omega - \beta T)\Big)^2\   (RSE_{PrevH_1}PrevH_1)^2 + \\
 &amp;\Big(\frac{(PrevR_2 - \beta)}{(1 - PrevH_2)^2} (\Omega - \beta T)\Big)^2\ (RSE_{PrevH_2}PrevH_2)^2 +\\
   &amp; \frac{PrevH_1}{1 - PrevH_1}(\Omega - \beta T))\ (RSE_{PrevR_1}\ PrevR_1)^2) + \\     &amp; \frac{PrevH_2}{1 - PrevH_2}(\Omega - \beta T))\ (RSE_{PrevR_2}PrevR_2)^2) +\\
     &amp;\Big(\big(\frac{\beta\ PrevH_1 - PrevR_1 \ PrevH_1}{1 - PrevH_1}  -  \frac{\beta\ PrevH_2 - PrevR_2 \ PrevH_2}{1 - PrevH_2}\big) (\Omega - \beta \ T)^2 \Big)^2  RSE_{MDRI}\ MDRI +\\
 &amp;\Big(\big(\frac{PrevH_1(T\ PrevR_1 - \Omega)}{(1 - PrevH_1)} -\frac{PrevH_2(T\ PrevR_2 -\Omega)}{(1 - PrevH_2)}\big)(\Omega - \beta T)^2 \Big)^2 RSE_{\beta}\ \beta\\
-\end{align}\]</span>
-Case 2: Surveys share a single estimate for MDRI, but have independent FRR estimates
-<span class="math display">\[\begin{align}
+\end{align}
+
+
+
+Case 2: Surv\]</span>eys share a single estimate for MDRI, but have independent FRR estimates <span class="math display">\[\begin{align}
 V[\Delta \mathbb{I}]_2 \approx &amp;
  \Big(\frac{(PrevR_1 - \beta)}{(1 - PrevH_1)^2} (\Omega - \beta T)\Big)^2\   (RSE_{PrevH_1}PrevH_1)^2 + \\
 &amp;\Big(\frac{(PrevR_2 - \beta)}{(1 - PrevH_2)^2} (\Omega - \beta T)\Big)^2\ (RSE_{PrevH_2}PrevH_2)^2 +\\
@@ -196,9 +360,10 @@ V[\Delta \mathbb{I}]_2 \approx &amp;
 &amp;\Big(\big(\frac{\beta\ PrevH_1 - PrevR_1 \ PrevH_1}{1 - PrevH_1}  -  \frac{\beta\ PrevH_2 - PrevR_2 \ PrevH_2}{1 - PrevH_2}\big) (\Omega - \beta \ T)^2 \Big)^2  RSE_{MDRI}\ MDRI +\\
       &amp;\Big(\frac{PrevH_1(T\ PrevR_1 - \Omega)}{1 - PrevH_1}(\Omega - \beta_1 \ T)^2\Big)^2 RSE_{\beta_1}\ \beta_1 + \\  
       &amp;\Big(\frac{PrevH_2(T\ PrevR_2 - \Omega)}{1 - PrevH_2}(\Omega - \beta_2 \ T)^2)\Big)^2 RSE_{\beta_2}\ \beta_2
-\end{align}\]</span>
-Case 3: Both MDRI and FRR are independently estimated in each survey
-<span class="math display">\[\begin{align}
+\end{align}
+
+
+Case 3: Both MD\]</span>RI and FRR are independently estimated in each survey <span class="math display">\[\begin{align}
 V[\Delta \mathbb{I}]_3 \approx &amp;
  \Big(\frac{(PrevR_1 - \beta_1)}{(1 - PrevH_1)^2} (\Omega_1 - \beta_1 T_1)\Big)^2\   (RSE_{PrevH_1}PrevH_1)^2 + \\
 &amp;\Big(\frac{(PrevR_2 - \beta_2)}{(1 - PrevH_2)^2} (\Omega_2 - \beta_2 T_2)\Big)^2\ (RSE_{PrevH_2}PrevH_2)^2 +\\
@@ -207,14 +372,14 @@ V[\Delta \mathbb{I}]_3 \approx &amp;
     &amp;\Big(\frac{\beta_2\ PrevH_2 - PrevR_2\ PrevH_2}{1 - PrevH_2}\ (\Omega_2 - \beta_2\ T_2)^2\Big)^2 RSE_{MDRI_2}\ MDRI_2    +\\
       &amp;\Big(\frac{PrevH_1(T_1\ PrevR_1 - \Omega_1}{1 - PrevH_1}(\Omega_1 -\beta_1\ T_1)^2\Big)^2  RSE_{\beta_1}\ \beta_1 + \\     
       &amp;\Big(\frac{PrevH_2(T_2\ PrevR_2 - \Omega_2}{1 - PrevH_2}(\Omega_2 -\beta_2\ T_2)^2\Big)^2  RSE_{\beta_2}\ \beta_2
-\end{align}\]</span>
-<p>Note:</p>
-<ul>
-<li>The option for the assay characteristic scheme is specified by function parameter <code>BMest</code>. Subscripts 1 and 2 in the parameter notation denote associated survey or test parameters. The variances of the three cases follow.</li>
-<li>To avoid unnecessarily confusing complexity in the specification of multiple <em>recency-test-property-estimate-sharing</em> rules for different subsets of a global set of surveys, only a single <em>recency-test-property-estimate-sharing</em> rule is allowed in any set of surveys submitted in one invocation of the functions <code>incprops</code> and <code>inccounts</code>.</li>
-<li>If different recency tests are used in separate surveys, but they happen to have any numerically identical test property estimates, this will still need to be specified as independent test properties, as these estimates would be <em>statistically independent</em>.</li>
-</ul>
-<div id="crucial-note-on-choice-of-null-hypothesis-calculation-of-p-values-and-meaning-of-statistical-power" class="section level3">
+\end{align}
+
+
+Note:
+
+* The option\]</span> for the assay characteristic scheme is specified by function parameter <code>BMest</code>. Subscripts 1 and 2 in the parameter notation denote associated survey or test parameters. The variances of the three cases follow. * To avoid unnecessarily confusing complexity in the specification of multiple <em>recency-test-property-estimate-sharing</em> rules for different subsets of a global set of surveys, only a single <em>recency-test-property-estimate-sharing</em> rule is allowed in any set of surveys submitted in one invocation of the functions <code>incprops</code> and <code>inccounts</code>. * If different recency tests are used in separate surveys, but they happen to have any numerically identical test property estimates, this will still need to be specified as independent test properties, as these estimates would be <em>statistically independent</em>.</p>
+</section>
+<section id="crucial-note-on-choice-of-null-hypothesis-calculation-of-p-values-and-meaning-of-statistical-power" class="level3">
 <h3>Crucial note on choice of null hypothesis, calculation of p-values and meaning of “statistical power”</h3>
 <p>It is not uncommon for a null hypothesis to be underspecified until the final data is available, i.e. for certain details (such as a hypothetically shared value of a test statistic) to be specified (estimated) in light of the data (such as by a “pooled estimate”). In the present situation, the hypothetically common value of incidence, as well as the (potentially different by context) values of prevalence, cannot be reasonably supplied without seeing the data. Once data is available, there is further no unique, obviously correct, approach to deriving these parameters, and different choices can be entertained. The simplest, but not necessarily optimal, (indeed potentially problematic) approach is to hypothesize that the two survey populations are identical in terms of incidence AND prevalence, as this suggests a naïve pooling of all data to provide the hypothetically common values. However, a simple test for difference of prevalence would be expected to lead to the rejection of the null hypothesis (of equal prevalence) in many, if not most, cases, as prevalence will be relatively precisely estimatable in any survey remotely powered to estimate incidence. Hence, a more flexible approach to the null hypothesis is required.   The approach taken here is to:</p>
 <ul>
@@ -268,8 +433,7 @@ $$
 
 The bootstrap option produces most of the statistics given by running the functions using a delta method approximation, however the estimate of RSE of the incidence estimator at infinite sample size, which is calculated by letting sample size $n$ tend toward infinity in the limit in the components of the variance of incidence estimator, is not produced.
 -->
-</div>
-</div>
+</section>
 
 
 
@@ -278,7 +442,7 @@ The bootstrap option produces most of the statistics given by running the functi
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
