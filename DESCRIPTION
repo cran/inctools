@@ -2,11 +2,11 @@ Encoding: UTF-8
 Package: inctools
 Type: Package
 Title: Incidence Estimation Tools
-Version: 1.0.14
-Date: 2018-09-21
+Version: 1.0.15
+Date: 2019-11-05
 Authors@R: c(
+  person("Eduard","Grebe",email="Eduard.Grebe@ucsf.edu",role=c("cre","aut")),
   person("Alex","Welte", email="alexwelte@sun.ac.za", role="aut"),
-  person("Eduard","Grebe",email="eduardgrebe@sun.ac.za",role=c("cre","aut")),
   person("Avery","McIntosh",email="avery.i.mcintosh@gmail.com",role="aut"),
   person("Petra","Bäumler",email="petra.baeumler@med.uni-muenich.de",role="aut"),
   person("Reshma","Kassanjee", role="ctb"),
@@ -29,14 +29,14 @@ License: GPL-3
 LazyData: True
 Imports: stats, utils, magrittr, rlang, dplyr, tibble, cubature,
         tmvtnorm, ggplot2, glm2, plyr, pracma, foreach, parallel,
-        doParallel
+        doParallel, binom
 Suggests: survey, knitr, rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2018-09-21 22:19:07 UTC; eduardgrebe
-Author: Alex Welte [aut],
-  Eduard Grebe [cre, aut],
+Packaged: 2019-11-06 00:19:59 UTC; eduard
+Author: Eduard Grebe [cre, aut],
+  Alex Welte [aut],
   Avery McIntosh [aut],
   Petra Bäumler [aut],
   Reshma Kassanjee [ctb],
@@ -47,6 +47,6 @@ Author: Alex Welte [aut],
   Stefano Ongarello [aut],
   Yusuke Asai [ctb],
   Jeffrey Eaton [ctb]
-Maintainer: Eduard Grebe <eduardgrebe@sun.ac.za>
+Maintainer: Eduard Grebe <Eduard.Grebe@ucsf.edu>
 Repository: CRAN
-Date/Publication: 2018-09-21 22:40:10 UTC
+Date/Publication: 2019-11-07 14:20:02 UTC

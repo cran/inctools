@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,10 +19,10 @@
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -31,16 +32,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -49,9 +50,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -82,7 +83,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -270,6 +293,9 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -278,14 +304,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <h1 class="title toc-ignore">Estimating incidence from cross-sectional data</h1>
-<h4 class="date"><em>29 April 2017</em></h4>
+<h4 class="date">29 April 2017</h4>
 
 
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>This vignette covers the use of the functions <code>incprops</code>, <code>inccounts</code>, and <code>prevcounts</code>. It is strongly recommended that the vignette “Introduction” be read before any use of this package.</p>
-<p>The two primary functions for HIV incidence estimation are <code>incprops</code> and <code>inccounts</code>. These take as arguments a summary of arbitrarily complex survey data sets capturing HIV prevalence and prevalence of recent HIV infection among HIV positive subjects. They return estimates of incidence, and, if specification of multiple cross-sectional surveys is provided, incidence differences (point estimates, confidence intervals, p values, and subsidiary output). The principal reference for the methodology underlying this implementation is Kassanjee et al. <em>Epidemiology</em>, 2012.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Further guidance is provided in Kassanjee, McWalter, Welte. <em>AIDS Research and Human Retroviruses</em>, 2014.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, and some hitherto unpublished technical details are in the appendix of vignette “Introduction”.</p>
+<p>The two primary functions for HIV incidence estimation are <code>incprops</code> and <code>inccounts</code>. These take as arguments a summary of arbitrarily complex survey data sets capturing HIV prevalence and prevalence of recent HIV infection among HIV positive subjects. They return estimates of incidence, and, if specification of multiple cross-sectional surveys is provided, incidence differences (point estimates, confidence intervals, p values, and subsidiary output). The principal reference for the methodology underlying this implementation is Kassanjee et al. <em>Epidemiology</em>, 2012.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Further guidance is provided in Kassanjee, McWalter, Welte. <em>AIDS Research and Human Retroviruses</em>, 2014.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, and some hitherto unpublished technical details are in the appendix of vignette “Introduction”.</p>
 </div>
 <div id="analytical-paradigm" class="section level2">
 <h2>Analytical Paradigm</h2>
@@ -313,16 +339,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li>the equivalent annualised risk of infection (which is usually numerically very similar)</li>
 <li>implied confidence intervals on MDRi and FRR derived from input parameters</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">incprops</span>(<span class="dt">PrevH =</span> <span class="fl">0.20</span>, <span class="dt">RSE_PrevH =</span> <span class="fl">0.028</span>, <span class="dt">PrevR =</span> <span class="fl">0.10</span>, <span class="dt">RSE_PrevR =</span> <span class="fl">0.09</span>,</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">         <span class="dt">BS_Count =</span> <span class="dv">10000</span>, <span class="dt">Boot =</span> <span class="ot">TRUE</span>, <span class="dt">MDRI =</span> <span class="dv">200</span>, <span class="dt">RSE_MDRI =</span> <span class="fl">0.05</span>,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">         <span class="dt">FRR =</span> <span class="fl">0.01</span>, <span class="dt">RSE_FRR =</span> <span class="fl">0.2</span>, <span class="dt">BigT =</span> <span class="dv">730</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">incprops</span>(<span class="dt">PrevH =</span> <span class="fl">0.20</span>, <span class="dt">RSE_PrevH =</span> <span class="fl">0.028</span>, <span class="dt">PrevR =</span> <span class="fl">0.10</span>, <span class="dt">RSE_PrevR =</span> <span class="fl">0.09</span>,</span>
+<span id="cb1-2"><a href="#cb1-2"></a>         <span class="dt">BS_Count =</span> <span class="dv">10000</span>, <span class="dt">Boot =</span> <span class="ot">TRUE</span>, <span class="dt">MDRI =</span> <span class="dv">200</span>, <span class="dt">RSE_MDRI =</span> <span class="fl">0.05</span>,</span>
+<span id="cb1-3"><a href="#cb1-3"></a>         <span class="dt">FRR =</span> <span class="fl">0.01</span>, <span class="dt">RSE_FRR =</span> <span class="fl">0.2</span>, <span class="dt">BigT =</span> <span class="dv">730</span>)</span></code></pre></div>
 <pre><code>## $Incidence.Statistics
 ##   Incidence  CI.low   CI.up     RSE  Cov.PrevH.I Cor.PrevH.I
-## 1   0.04265 0.03311 0.05314 0.11943 8.696208e-06   0.3074634
+## 1   0.04265 0.03309 0.05313 0.11977 8.519406e-06    0.297185
 ## 
 ## $Annual.Risk.of.Infection
 ##      ARI ARI.CI.low ARI.CI.up
-## 1 0.0418     0.0326    0.0518
+## 1 0.0418     0.0325    0.0517
 ## 
 ## $MDRI.CI
 ##   CI.low CI.up
@@ -336,11 +362,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li>A single value of recency cut off time <span class="math inline">\(T\)</span> is required for all surveys, even if the tests are different and have independently estimates MDRI and FRR, as in the example below</li>
 <li>In addition to the results returned for the single survey case (replicated for each survey), <code>incprops</code> also calculates all pairwise incidence differences and p values.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">incprops</span>(<span class="dt">PrevH =</span> <span class="kw">c</span>(<span class="fl">0.20</span>,<span class="fl">0.21</span>,<span class="fl">0.18</span>), <span class="dt">RSE_PrevH =</span> <span class="kw">c</span>(<span class="fl">0.028</span>,<span class="fl">0.03</span>,<span class="fl">0.022</span>),</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">         <span class="dt">PrevR =</span> <span class="kw">c</span>(<span class="fl">0.10</span>,<span class="fl">0.13</span>,<span class="fl">0.12</span>), <span class="dt">RSE_PrevR =</span> <span class="kw">c</span>(<span class="fl">0.094</span>,<span class="fl">0.095</span>,<span class="fl">0.05</span>),</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">         <span class="dt">BS_Count =</span> <span class="dv">10000</span>, <span class="dt">Boot =</span> <span class="ot">FALSE</span>, <span class="dt">BMest =</span> <span class="st">'MDRI.FRR.indep'</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">         <span class="dt">MDRI =</span> <span class="kw">c</span>(<span class="dv">200</span>,<span class="dv">180</span>,<span class="dv">180</span>), <span class="dt">RSE_MDRI =</span> <span class="kw">c</span>(<span class="fl">0.05</span>,<span class="fl">0.07</span>,<span class="fl">0.06</span>),</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">         <span class="dt">FRR =</span> <span class="kw">c</span>(<span class="fl">0.01</span>,<span class="fl">0.009</span>,<span class="fl">0.02</span>), <span class="dt">RSE_FRR =</span> <span class="kw">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>,<span class="fl">0.1</span>), <span class="dt">BigT =</span> <span class="dv">730</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">incprops</span>(<span class="dt">PrevH =</span> <span class="kw">c</span>(<span class="fl">0.20</span>,<span class="fl">0.21</span>,<span class="fl">0.18</span>), <span class="dt">RSE_PrevH =</span> <span class="kw">c</span>(<span class="fl">0.028</span>,<span class="fl">0.03</span>,<span class="fl">0.022</span>),</span>
+<span id="cb3-2"><a href="#cb3-2"></a>         <span class="dt">PrevR =</span> <span class="kw">c</span>(<span class="fl">0.10</span>,<span class="fl">0.13</span>,<span class="fl">0.12</span>), <span class="dt">RSE_PrevR =</span> <span class="kw">c</span>(<span class="fl">0.094</span>,<span class="fl">0.095</span>,<span class="fl">0.05</span>),</span>
+<span id="cb3-3"><a href="#cb3-3"></a>         <span class="dt">BS_Count =</span> <span class="dv">10000</span>, <span class="dt">Boot =</span> <span class="ot">FALSE</span>, <span class="dt">BMest =</span> <span class="st">&#39;MDRI.FRR.indep&#39;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>         <span class="dt">MDRI =</span> <span class="kw">c</span>(<span class="dv">200</span>,<span class="dv">180</span>,<span class="dv">180</span>), <span class="dt">RSE_MDRI =</span> <span class="kw">c</span>(<span class="fl">0.05</span>,<span class="fl">0.07</span>,<span class="fl">0.06</span>),</span>
+<span id="cb3-5"><a href="#cb3-5"></a>         <span class="dt">FRR =</span> <span class="kw">c</span>(<span class="fl">0.01</span>,<span class="fl">0.009</span>,<span class="fl">0.02</span>), <span class="dt">RSE_FRR =</span> <span class="kw">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>,<span class="fl">0.1</span>), <span class="dt">BigT =</span> <span class="dv">730</span>)</span></code></pre></div>
 <pre><code>## $Incidence.Statistics
 ##   survey Incidence  CI.low   CI.up     RSE RSE.Inf.SS
 ## 1      1   0.04265  0.0324  0.0529 0.12264    0.05392
@@ -387,8 +413,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </ul>
 <p>into (point) estimates (and variance) of prevalence of HIV and prevalence of recent infection among HIV the positives. At heart, this is a relatively simple multinomial distribution analysis (trinomial, in the case of complete coverage of recency testing amongst HIV positives) and could be accomplished without any significant innovation directly arising out of the core methods of this package, but function <code>prevcounts</code> at least provides a consistent entry point into this analysis, using arguments consistently named to align to the other functions, including appropriate design effects. The most likely use of <code>prevcounts</code> is probably indirectly through <code>inccounts</code>, but it is provided in user-exposed form for its intuitive supportive value and for recycling into user customisations beyond routine primary incidence estimation. Note that the use of <code>prevcounts</code> implies an interpretation of these counts which precludes non-null covariance of the prevalence of HIV and the prevalence of recency.</p>
 <p>For a single survey:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">prevcounts</span>(<span class="dt">N =</span> <span class="dv">5000</span>, <span class="dt">N_H =</span> <span class="dv">1000</span>, <span class="dt">N_testR =</span> <span class="dv">1000</span>, <span class="dt">N_R =</span> <span class="dv">70</span>, <span class="dt">DE_H =</span> <span class="fl">1.1</span>,</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">           <span class="dt">DE_R =</span> <span class="fl">1.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">prevcounts</span>(<span class="dt">N =</span> <span class="dv">5000</span>, <span class="dt">N_H =</span> <span class="dv">1000</span>, <span class="dt">N_testR =</span> <span class="dv">1000</span>, <span class="dt">N_R =</span> <span class="dv">70</span>, <span class="dt">DE_H =</span> <span class="fl">1.1</span>,</span>
+<span id="cb5-2"><a href="#cb5-2"></a>           <span class="dt">DE_R =</span> <span class="fl">1.5</span>)</span></code></pre></div>
 <pre><code>##   PrevH PrevR  RSE_PrevH RSE_PrevR
 ## 1   0.2  0.07 0.02966479 0.1411686</code></pre>
 <p>Note that:</p>
@@ -399,8 +425,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li><p>There is no mention of a total sample size in excess of the number of individuals in the underlying survey, on whom there is no HIV status information. A more sophisticated analysis might well use this larger sample size, and additionally account for the frequency, and risk-factor distribution, of missingness, but the conception <code>prevcounts</code> does not require this data. The use of design effects, though limited and ultimately problematic, is the appropriate way to insert distributional information beyond the implied two independent binomial distributions for each prevalence.</p></li>
 </ul>
 <p>Input can be provided for two or more surveys in vector form, using the concatenation expression <code>c()</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">prevcounts</span> (<span class="dt">N =</span> <span class="kw">c</span>(<span class="dv">5000</span>,<span class="dv">6000</span>), <span class="dt">N_H =</span> <span class="kw">c</span>(<span class="dv">1000</span>,<span class="dv">1100</span>), <span class="dt">N_testR =</span> <span class="kw">c</span>(<span class="dv">950</span>,<span class="dv">1060</span>),</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">            <span class="dt">N_R =</span> <span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">70</span>), <span class="dt">DE_H =</span> <span class="kw">c</span>(<span class="fl">1.1</span>,<span class="fl">1.2</span>), <span class="dt">DE_R =</span> <span class="kw">c</span>(<span class="fl">1.2</span>,<span class="fl">1.3</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">prevcounts</span> (<span class="dt">N =</span> <span class="kw">c</span>(<span class="dv">5000</span>,<span class="dv">6000</span>), <span class="dt">N_H =</span> <span class="kw">c</span>(<span class="dv">1000</span>,<span class="dv">1100</span>), <span class="dt">N_testR =</span> <span class="kw">c</span>(<span class="dv">950</span>,<span class="dv">1060</span>),</span>
+<span id="cb7-2"><a href="#cb7-2"></a>            <span class="dt">N_R =</span> <span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">70</span>), <span class="dt">DE_H =</span> <span class="kw">c</span>(<span class="fl">1.1</span>,<span class="fl">1.2</span>), <span class="dt">DE_R =</span> <span class="kw">c</span>(<span class="fl">1.2</span>,<span class="fl">1.3</span>))</span></code></pre></div>
 <pre><code>##       PrevH      PrevR  RSE_PrevH RSE_PrevR
 ## 1 0.2000000 0.10526316 0.02966479 0.1036187
 ## 2 0.1833333 0.06603774 0.02984810 0.1317005</code></pre>
@@ -408,11 +434,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Kassanjee, R., McWalter, T.A., Baernighausen, T. and Welte, A. “A new general biomarker-based incidence estimator.” Epidemiology; 2012, 23(5): 721-728.<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>Kassanjee, R., McWalter, T.A. and Welte, A. “Short Communication: Defining Optimality of a Test for Recent Infection for HIV Incidence Surveillance.” AIDS Research and Human Retroviruses; 2014, 30(1): 45-49.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>Kassanjee, R., McWalter, T.A., Baernighausen, T. and Welte, A. “A new general biomarker-based incidence estimator.” Epidemiology; 2012, 23(5): 721-728.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Kassanjee, R., McWalter, T.A. and Welte, A. “Short Communication: Defining Optimality of a Test for Recent Infection for HIV Incidence Surveillance.” AIDS Research and Human Retroviruses; 2014, 30(1): 45-49.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
